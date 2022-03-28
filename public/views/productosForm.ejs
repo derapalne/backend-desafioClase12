@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Productos :)</title>
+        <script src="/socket.io/socket.io.js"></script>
+        <style>
+            body {
+                font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
+                text-align: center;
+                padding: 10px;
+                background-color: rgb(98, 107, 107);
+                color: gainsboro;
+            }
+            table,
+            th,
+            td {
+                border: 1px gainsboro;
+                border-style: groove;
+                border-radius: 5px;
+                /* border-collapse: collapse; */
+            }
+            table {
+                background-color: #787878;
+                width: 70%;
+                margin: auto;
+            }
+            img {
+                width: 64px;
+            }
+            p {
+                margin: 0% 1px;
+            }
+            #chat {
+                text-align: left;
+                width: 70%;
+                margin: auto;
+            }
+        </style>
+    </head>
+    <body>
+        <h1>Ingrese los productos por favor</h1>
+        <form>
+            <label for="title">Título</label>
+            <input type="text" name="title" id="title" /> <br />
+
+            <label for="price">Precio</label>
+            <input type="number" name="price" id="price" /> <br />
+
+            <label for="thumbnail">Thumbnail</label>
+            <input type="text" name="thumbnail" id="thumbnail" /> <br />
+
+            <input type="submit" id="agregar" value="Agregar" />
+        </form>
+        <small id="mensaje-form" style="background-color: plum; color: red"></small>
+        <br/>
+        <div>
+            <% if(prods.length >= 1) { %>
+            <table id="tabla">
+                <thead>
+                    <td>Título</td>
+                    <td>Precio</td>
+                    <td>Imagen</td>
+                </thead>
+                <tbody>
+                    <% prods.forEach((prod) => { %>
+                    <tr>
+                        <td><%=prod.title %></td>
+                        <td><%=prod.price %></td>
+                        <td><img src=<%=prod.thumbnail%> /></td>
+                    </tr>
+                    <% }); %>
+                </tbody>
+            </table>
+            <% } else { %>
+            <p style="background-color: plum">No hay productos</p>
+            <% } %>
+        </div>
+        <br/>
+        <div>
+            <form>
+
+                <input type="email" name="mail" id="mail" placeholder="Ingrese su e-mail"/>
+
+                <input type="text" name="mensaje" id="mensaje-chat" placeholder="Escriba aquí"/>
+
+                <input type="submit" name="enviar" id="enviar" value="Enviar" disabled/>
+            </form>
+            <br/>
+            <div id="chat" style="background-color: gainsboro; padding: 1px;">
+                <%- mensajes%>
+            </div>
+        </div>
+
+        <script src="../productosForm.js"></script>
+    </body>
+</html>
+
