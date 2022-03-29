@@ -14,6 +14,8 @@ const mensajeChat = document.getElementById("mensaje-chat");
 const enviar = document.getElementById("enviar");
 const chat = document.getElementById("chat");
 
+
+// Agregar producto
 agregar.addEventListener("click", (e) => {
     e.preventDefault();
     socket.emit("productoAgregado", {
@@ -23,6 +25,7 @@ agregar.addEventListener("click", (e) => {
     });
 });
 
+// Chequear mail
 mail.addEventListener("change", (e) => {
     if (!mail.value || mail.value.trim() == "") {
         // console.log(mail.value, true)
@@ -33,6 +36,7 @@ mail.addEventListener("change", (e) => {
     }
 });
 
+// Enviar mensaje
 enviar.addEventListener("click", (e) => {
     e.preventDefault();
     const d = new Date();
@@ -46,6 +50,7 @@ enviar.addEventListener("click", (e) => {
     mensajeChat.value = '';
 });
 
+// Actualizar el chat
 socket.on('chatRefresh', (mensaje) => {
     chat.innerHTML += `<p>
     <strong style="color: #77f">${mensaje.mail}</strong>
@@ -54,6 +59,7 @@ socket.on('chatRefresh', (mensaje) => {
 </p>`;
 })
 
+// Actualizar productos
 socket.on("productosRefresh", (productos) => {
     mensajeForm.innerText = "";
     let tablaInfo = tabla.lastElementChild.innerHTML;
@@ -67,6 +73,7 @@ socket.on("productosRefresh", (productos) => {
     tabla.lastElementChild.innerHTML = tablaInfo;
 });
 
+// Si el producto es inválido, te avisa
 socket.on("productoInvalido", (e) => {
     mensajeForm.innerText = e.error;
 });

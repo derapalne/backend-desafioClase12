@@ -52,14 +52,16 @@ io.on("connection", (socket) => {
     socket.on("productoAgregado", (producto) => {
         // console.log(producto);
         const respuestaApi = productosApi.addProducto(producto);
-        //console.log(productosApi.getAll());
+        // respuestaApi es el ID del producto, si no es un número, es un error (ver API)
         if (isNaN(respuestaApi)) {
             socket.emit("productoInvalido", respuestaApi);
         } else {
             io.sockets.emit("productosRefresh", productosApi.getAll());
         }
     });
+
     socket.on('mensajeEnviado', (mensaje) => {
+        // Hardcodeé una manera de borrar todos los mensajes lol *hackerman*
         if(mensaje.message != "borrar literalmente todo 123") {
             archivador.guardarMensaje(mensaje).then(
                 io.sockets.emit('chatRefresh', mensaje)
