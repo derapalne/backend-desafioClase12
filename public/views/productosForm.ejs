@@ -80,15 +80,6 @@
         </div>
         <br/>
         <div>
-            <form>
-
-                <input type="email" name="mail" id="mail" placeholder="Ingrese su e-mail"/>
-
-                <input type="text" name="mensaje" id="mensaje-chat" placeholder="Escriba aquí"/>
-
-                <input type="submit" name="enviar" id="enviar" value="Enviar" disabled/>
-            </form>
-            <br/>
             <div id="chat" style="color: brown;background-color: gainsboro; padding: 1px;">
                 <% if(mensajes.length > 0) { %>
                 <% mensajes.forEach( (mensaje) => { %>
@@ -100,6 +91,14 @@
                 <% }); %>
                 <% } %>
             </div>
+            <br/>
+            <form>
+                <input type="email" name="mail" id="mail" placeholder="Ingrese su e-mail"/>
+
+                <input type="text" name="mensaje" id="mensaje-chat" placeholder="Escriba aquí"/>
+
+                <input type="submit" name="enviar" id="enviar" value="Enviar" disabled/>
+            </form>
         </div>
 
         <script src="../productosForm.js"></script>

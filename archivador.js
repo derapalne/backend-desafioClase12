@@ -9,7 +9,6 @@ class Archivador {
         try {
             console.log("Cargando mensajes...");
             const mensajesJson = await fs.promises.readFile(`./src/${this.filename}`, "utf-8");
-            console.log(mensajesJson);
             this.mensajes = JSON.parse(mensajesJson);
             return mensajesJson;
         } catch (e) {
@@ -20,7 +19,7 @@ class Archivador {
     async guardarMensaje(mensaje) {
         try {
             this.mensajes.push(mensaje);
-            console.log("Guardando datos en archivo...");
+            //console.log("Guardando datos en archivo...");
             await fs.promises.writeFile(`./src/${this.filename}`, JSON.stringify(this.mensajes));
         } catch (e) {
             console.log("Error guardando mensaje", e);

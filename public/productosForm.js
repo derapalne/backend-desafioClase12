@@ -55,7 +55,7 @@ socket.on('chatRefresh', (mensaje) => {
 })
 
 socket.on("productosRefresh", (productos) => {
-    mensaje.innerText = "";
+    mensajeForm.innerText = "";
     let tablaInfo = tabla.lastElementChild.innerHTML;
     const producto = productos[productos.length - 1];
     tablaInfo += `
@@ -68,5 +68,5 @@ socket.on("productosRefresh", (productos) => {
 });
 
 socket.on("productoInvalido", (e) => {
-    mensaje.innerText = e.error;
+    mensajeForm.innerText = e.error;
 });
