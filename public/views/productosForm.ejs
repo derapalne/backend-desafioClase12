@@ -69,7 +69,7 @@
                     <tr>
                         <td><%=prod.title %></td>
                         <td><%=prod.price %></td>
-                        <td><img src=<%=prod.thumbnail%> /></td>
+                        <td><img src= <%=prod.thumbnail%> /></td>
                     </tr>
                     <% }); %>
                 </tbody>
@@ -89,12 +89,21 @@
                 <input type="submit" name="enviar" id="enviar" value="Enviar" disabled/>
             </form>
             <br/>
-            <div id="chat" style="background-color: gainsboro; padding: 1px;">
-                <%- mensajes%>
+            <div id="chat" style="color: brown;background-color: gainsboro; padding: 1px;">
+                <% if(mensajes.length > 0) { %>
+                <% mensajes.forEach( (mensaje) => { %>
+                    <p>
+                        <strong style="color: #77f"><%=mensaje.mail%></strong>
+                        | <%=mensaje.timestamp%> :
+                        <em style="color: green"><%=mensaje.message%></em>
+                    </p>
+                <% }); %>
+                <% } %>
             </div>
         </div>
 
         <script src="../productosForm.js"></script>
     </body>
 </html>
+
 

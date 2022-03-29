@@ -3,10 +3,16 @@ const express = require("express");
 const { Server: HttpServer } = require("http");
 const { Server: IOServer } = require("socket.io");
 
+const Archivador = require('./archivador');
+
 const app = express();
 const productosApi = new ProductosAPI();
 const httpServer = new HttpServer(app);
 const io = new IOServer(httpServer);
+
+const archivador = new Archivador('chat');
+archivador.cargarMensajes();
+console.log(archivador.mensajes);
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -14,6 +20,8 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.static(__dirname + "/public"));
 app.set("views", "./public/views");
 app.set("view engine", "ejs");
+
+console.log(archivador.mensajes);
 
 productosApi.addProducto({
     title: "Onigiri",
@@ -35,7 +43,7 @@ productosApi.addProducto({
 });
 
 app.get("/", (req, res) => {
-    res.render("productosForm", { prods: productosApi.productos, mensajes: mensajes });
+    res.render("productosForm", { prods: productosApi.productos, mensajes: archivador.mensajes });
 });
 
 // app.post("/productos", (req, res) => {
@@ -43,10 +51,12 @@ app.get("/", (req, res) => {
 //     res.render("productosForm", { prods: productosApi.productos });
 // });
 
-let mensajes = '';
+// let mensajes = '';
 
 const PORT = 8080;
 httpServer.listen(PORT, () => console.log("Lisstooooo ", PORT));
+
+console.log(archivador.mensajes);
 
 io.on("connection", (socket) => {
     console.log(`Nuevo cliente conectado: ${socket.id.substring(0, 4)}`);
@@ -61,11 +71,15 @@ io.on("connection", (socket) => {
         }
     });
     socket.on('mensajeEnviado', (mensaje) => {
-        const mensajeHTML = `\n<p style="color: brown">
-        <strong style="color: #77f">${mensaje.mail}</strong> | ${mensaje.timestamp} : 
-        <em style="color: #070">${mensaje.message}</em></p>`;
-        //guardar mensaje
-        mensajes += mensajeHTML;
-        io.sockets.emit('chatRefresh', mensajeHTML);
+        if(mensaje.message != "borrar literalmente todo 123") {
+            archivador.guardarMensaje(mensaje).then(
+                io.sockets.emit('chatRefresh', mensaje)
+            );
+        } else {
+            archivador.borrarMensajes();
+            archivador.cargarMensajes();
+            mensaje.message = "Chat borrado";
+            io.sockets.emit('chatRefresh', mensaje);
+        }
     })
 });
